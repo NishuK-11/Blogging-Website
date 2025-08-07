@@ -25,8 +25,10 @@
 import express from 'express';
 import dotenv from 'dotenv';
 import cors from 'cors';
+import cookieparser from 'cookie-parser';
 import dbCon from './db/db.js';
 import AuthRoutes from './routes/Auth.js';
+import AdminRoutes from './routes/AdminRoutes.js';
 
 dotenv.config();
 const PORT = process.env.PORT || 5000;
@@ -37,7 +39,7 @@ const app = express();
 // ✅ Middleware (after app initialized)
 app.use(cors());
 app.use(express.json());
-
+app.use(cookieparser());
 // ✅ Connect to DB
 dbCon();
 
@@ -46,6 +48,7 @@ app.get('/', (req, res) => {
   res.send("hii i am nishu");
 });
 app.use('/api/auth', AuthRoutes);
+app.use('/api/admin',AdminRoutes);
 
 // ✅ Start Server
 app.listen(PORT, () => {
